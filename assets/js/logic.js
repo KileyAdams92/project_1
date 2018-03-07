@@ -29,18 +29,49 @@ anime
     delay: 1000
   });
 
-//   function addButtons(buttonText) {
-//     $(".lyrics").html("");
+//musixmatch API call
+function addLyrics(lyricSpot) {
+  $(".lyrics").html("");
+  var songTitle = $("#song-title")
+    .val()
+    .trim();
+  console.log(songTitle);
+  var artistName = $("#artist")
+    .val()
+    .trim();
+  var queryURL =
+    "http://api.musixmatch.com/ws/1.1/" +
+    buttonText +
+    "http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=2ba1698bb3ae560efd18a96c8b13d980&q_track=" +
+    songTitle +
+    "&q_artist=" +
+    artistName;
 
-//     var queryURL =
-//       "http://api.musixmatch.com/ws/1.1/" +
-//       buttonText +
-//       "&api_key=2ba1698bb3ae560efd18a96c8b13d980";
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+    var lyrics = $(this).attr("data-lyrics");
+    console.log(response);
+    var result = response.message;
 
-//     $.ajax({
-//       url: queryURL,
-//       method: "GET"
-//     }).then(function(response) {
-//       var lyrics = $(this).attr("data-lyrics");
-//       var result = response.data;
-//       console.log(result);
+    // var result = response.data;
+    // console.log(result);
+    // for (var k = 0; k < result.length; k++) {
+    //   var artist = result[k].rating;
+    //   var p = $("<p>").text("Rating: " + rating);
+    //   var characterImage = $("<img>");
+    //   $("#gifs").append(p);
+    //   $("#gifs").append(characterImage);
+    //   characterImage.attr("src", result[k].images.fixed_height_still.url);
+    //   characterImage.attr("data-state", "still");
+    //   characterImage.addClass("gifImage");
+    //   characterImage.attr("data-animate", result[k].images.fixed_height.url);
+    //   characterImage.attr(
+    //     "data-still",
+    //     result[k].images.fixed_height_still.url
+    //   );
+    // }
+  });
+  addLyrics();
+}
