@@ -29,6 +29,10 @@ anime
     delay: 1000
   });
 
+$("#submit-song").click(function() {
+  addLyrics();
+  console.log(songTitle);
+});
 //musixmatch API call
 function addLyrics(lyricSpot) {
   $(".lyrics").html("");
@@ -40,8 +44,6 @@ function addLyrics(lyricSpot) {
     .val()
     .trim();
   var queryURL =
-    "http://api.musixmatch.com/ws/1.1/" +
-    buttonText +
     "http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=2ba1698bb3ae560efd18a96c8b13d980&q_track=" +
     songTitle +
     "&q_artist=" +
@@ -54,24 +56,6 @@ function addLyrics(lyricSpot) {
     var lyrics = $(this).attr("data-lyrics");
     console.log(response);
     var result = response.message;
-
-    // var result = response.data;
-    // console.log(result);
-    // for (var k = 0; k < result.length; k++) {
-    //   var artist = result[k].rating;
-    //   var p = $("<p>").text("Rating: " + rating);
-    //   var characterImage = $("<img>");
-    //   $("#gifs").append(p);
-    //   $("#gifs").append(characterImage);
-    //   characterImage.attr("src", result[k].images.fixed_height_still.url);
-    //   characterImage.attr("data-state", "still");
-    //   characterImage.addClass("gifImage");
-    //   characterImage.attr("data-animate", result[k].images.fixed_height.url);
-    //   characterImage.attr(
-    //     "data-still",
-    //     result[k].images.fixed_height_still.url
-    //   );
-    // }
+    var newLyrics = $(".lyrics").text(message.body.lyrics_body);
   });
-  addLyrics();
 }
