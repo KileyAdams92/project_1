@@ -58,12 +58,36 @@ $(function() {
       console.log(response);
       var result = response.message;
       var newLyrics = $(".lyrics").text(message.body.lyrics_body);
-
-      for (var k = 0; k < message.length; k++) {
-        var lyrics = message[k].lyrics_body;
-        var p = $("<p>").append(message.body.lyrics_body);
-        $(".lyrics").append(p);
-      }
     });
   }
+  //attempt at CORS header
+  var createCORSRequest = function(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+      // Most browsers.
+      xhr.open(method, url, true);
+    } else if (typeof XDomainRequest != "undefined") {
+      // IE8 & IE9
+      xhr = new XDomainRequest();
+      xhr.open(method, url);
+    } else {
+      // CORS not supported.
+      xhr = null;
+    }
+    return xhr;
+  };
+  
+  var url = "http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=2ba1698bb3ae560efd18a96c8b13d980&q_track=" +songTitle +"&q_artist=" + artistName;
+  var method = 'GET';
+  var xhr = createCORSRequest(method, url);
+  
+  xhr.onload = function() {
+    // Success code goes here.
+  };
+  
+  xhr.onerror = function() {
+    // Error code goes here.
+  };
+  
+  xhr.send();
 });
