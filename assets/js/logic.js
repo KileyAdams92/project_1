@@ -55,15 +55,11 @@ $(function() {
       method: "GET"
     }).then(function(response) {
       var lyrics = $(this).attr("data-lyrics");
-      console.log(response);
-      var result = response.message;
-      var newLyrics = $(".lyrics").text(message.body.lyrics_body);
 
-      for (var k = 0; k < message.length; k++) {
-        var lyrics = message[k].lyrics_body;
-        var p = $("<p>").append(message.body.lyrics_body);
-        $(".lyrics").append(p);
-      }
+      var lyricsBody = JSON.parse(response).message.body.lyrics.lyrics_body;
+      console.log(lyricsBody);
+
+      $(".lyrics").text(lyricsBody);
     });
   }
 });
