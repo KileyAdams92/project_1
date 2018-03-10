@@ -2,74 +2,113 @@
 <html>
 
 <head>
+    <!--Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <!--Custom CSS-->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
-    <div class="header container-fluid">
+    <!--HEADER-->
+    <div class="header container-fluid text-white">
         <h1 class="ml7">
             <span class="text-wrapper">
                 <span class="letters">Video Jukebox</span>
             </span>
         </h1>
+        <hr>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Song Title</th>
-                            <th scope="col">Artist</th>
-                            <th scope="col">Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                        </tr>
-                    </tbody>
-                </table>
-                <form>
-                    <div class="form-group">
-                        <label for="song-title">Song Title : </label>
-                        <input class="form-control" id="song-title" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="artist">Artist</label>
-                        <input class="form-control" id="artist" type="text">
-                    </div>
-                    <button class="btn btn-secondary" id="submit-song" type="submit">Submit</button>
-            </div>
-        </div>
+    <div class="wrapper">
+        <div id="page-content" class="container">
+            <div id="top-row" class="row">
+                <!--Search-->
+                <div class="col-lg-6">
+                    <form class="form">
+                        <div class="form-group">
+                            <label for="song-title">Song Title : </label>
+                            <input class="form-control" id="song-title" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="artist">Artist:</label>
+                            <input class="form-control" id="artist" type="text">
+                        </div>
+                        <form class="form-inline">
+                            <label for="duration">Duration:</label>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
 
-        <div class="video-content">
-            <div class="row">
-                <div class="d-flex p-2 col-12 video-box">Video Box (placeholder)</div>
-            </div>
-            </div class="row">
-                <div class="col-12 video-selection"></div>
-                <div class="col-6 video-playback">
-                    <div id="player"></div>
+                                <option selected>Choose...</option>
+                                <option value="1">Short</option>
+                                <option value="2">Medium</option>
+                            </select>
+                        </form>
+                        <button class="btn btn-secondary mb-2" id="submit-song" type="submit">Submit</button>
+                    </form>
                 </div>
-                <div class="col-6 video-playlist"></div>
+                <!--Video/Lyrics-->
+                <div class="col-lg-6 text-white rounded">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="d-flex p-2 musicP">Music Player</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="d-flex p-2 lyrics">Lyrics</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <br>
+            <!--Playlist Table-->
+            <div class="video-content">
+                <div class="row">
+                    <div class="d-flex p-2 col-lg-12 video-box">Video Box (placeholder)</div>
+                </div>
+                <div class="row">
+                    <div class="col-12 video-selection"></div>
+                    <div class="col-6 video-playback">
+                        <div id="player"></div>
+                    </div>
+                    <div class="col-6 video-playlist"></div>
+                </div>
             </div>
         </div>
+        <div class="container">
+            <div id="bottom-row" class="row">
+                <div class="col col-lg-12 text-white" style="background-color: transparent">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Song Title</th>
+                                <th scope="col">Artist</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="song-data" scope="row">1</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <div class="row">
-            <div class="col-6 iframe-player"></div>
-                <div class="d-flex p-2 lyrics">Lyrics</div>
             </div>
+
+
         </div>
 
     </div>
+    </div>
 
+    <!--Scripts-->
     <!-- JAVASCRIPT AND jQUERY -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
