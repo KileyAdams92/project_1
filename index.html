@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<!--Patrick's Changes-->
+
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -11,7 +11,7 @@
     <div class="header container-fluid">
         <h1 class="ml7">
             <span class="text-wrapper">
-                <span class="letters">Jukebox</span>
+                <span class="letters">Video Jukebox</span>
             </span>
         </h1>
     </div>
@@ -44,13 +44,22 @@
                     <button class="btn btn-secondary" id="submit-song" type="submit">Submit</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="d-flex p-2 musicP">Music Player</div>
+
+        <div class="video-content">
+            <div class="row">
+                <div class="d-flex p-2 col-12 video-box">Video Box (placeholder)</div>
+            </div>
+            </div class="row">
+                <div class="col-12 video-selection"></div>
+                <div class="col-6 video-playback">
+                    <div id="player"></div>
+                </div>
+                <div class="col-6 video-playlist"></div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-6 iframe-player"></div>
                 <div class="d-flex p-2 lyrics">Lyrics</div>
             </div>
         </div>
@@ -59,7 +68,8 @@
 
     <!-- JAVASCRIPT AND jQUERY -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
