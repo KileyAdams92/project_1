@@ -38,3 +38,7 @@ body {
 .musicP {
   background-color: grey;
 }
+
+.card{
+  display: inline-block;
+}

@@ -14,14 +14,14 @@
   
 //Global variables
 //Initial Search variables
-  //common for the MusixMatch and YoutTube Data search
+  //common for the MusixMatch and YoutTube Data searches
   var artistName ="";
   var songTitle="";
   //for YouTube Data API
-  var duration = ""; 
+  var duration = "";
 
   //Array of objects to be populated with  YouTube API Data
-  var ytSearchArray= [];
+  var ytSearchArray = [];
 
 $(function() {
   // Wrap every letter in a span
@@ -89,9 +89,10 @@ $(function() {
     //YouTube Data API call
   function ytDataSearch(){
 
-    var ytQueryURL =
-    "https://www.googleapis.com/youtube/v3/search?key=AIzaSyB213LbFGRmVEeWvM3O3-AVreKCX6uhJXk&q="+ 
-    artistName + "&"+ songTitle  + "&part=snippet&type=video&videoDuration=" + duration + "&maxResults=8";
+    ytSearchArray = [];
+
+    var ytQueryURL ="https://www.googleapis.com/youtube/v3/search?key=AIzaSyB213LbFGRmVEeWvM3O3-AVreKCX6uhJXk&q="+ 
+    artistName + "&"+ songTitle  + "&part=snippet&type=video&videoDuration=" + duration + "&maxResults=4"
     
     $.ajax({
       url: ytQueryURL,
@@ -104,10 +105,49 @@ $(function() {
           var objImage = ytInfo.snippet.thumbnails.high.url
           ytSearchArray.push({ ytTitle: objTitle, ytVideo: objVideo, ytImage: objImage,});
           };
-          console.log(ytSearchArray);
-          //displayVideos();
+      console.log(ytSearchArray);
+      console.log(ytSearchArray.length);
+      console.log('"' + ytSearchArray.length + '"');
+      videoSearchResults();
     });
   }
-  
+
+  function videoSearchResults() {
+    //empties the video-selection div to remove past search results.
+    $(".video-selection").empty();
+
+    //repopulates the video-selection div with the current search results;
+    for (i = 0; i < ytSearchArray.length; i++){
+      //Creates a Bootstrap Card for each video
+      var videoCard = $("<div>").addClass("card").attr("style", "width: 18rem;");
+
+        //Creates the Card image
+        var cardImage = $("<img>").addClass("card-img-top")
+
+          cardImage.attr("src", ytSearchArray[i].ytImage);
+          cardImage.attr("alt", "Card image cap");
+
+        //Creates the Card Body
+        var cardBody = $("<div>").addClass("card-body");
+
+          var cardHeader = $("<h5>").addClass("card-title").text("Video Title:");
+              console.log(cardHeader.text());
+
+          var cardText = $("<p>").addClass("card-text");
+              cardText.text(ytSearchArray[i].ytTitle);
+              console.log(cardText.text());
+
+          var cardButton = $("<button>").addClass("btn btn-primary").text("Select");
+            cardButton.val([i]);
+            console.log(cardButton.val());
+
+    //Assembles the Card and displays to page
+    cardBody.append(cardHeader, cardText, cardButton);
+    videoCard.append(cardImage, cardBody);
+    $(".video-selection").append(videoCard)
+    $(".video-box").text("Select a video to Preview!");
+    }
+  }
+
 });
 
