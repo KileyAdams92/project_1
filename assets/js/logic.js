@@ -1,4 +1,17 @@
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBeq7mfg3gK0IBtgkGYr32wO3UWw2PhV_k",
+    authDomain: "video-jukebox-612ac.firebaseapp.com",
+    databaseURL: "https://video-jukebox-612ac.firebaseio.com",
+    projectId: "youtube-video-jukebox",
+    storageBucket: "youtube-video-jukebox.appspot.com",
+    messagingSenderId: "265159850889"
+  };
+  firebase.initializeApp(config);
 
+// a variable to reference the database
+  var database = firebase.database();
+  
 //Global variables
 //Initial Search variables
   //common for the MusixMatch and YoutTube Data search
@@ -7,12 +20,8 @@
   //for YouTube Data API
   var duration = ""; 
 
-  //Arrays populated with  YouTube API Data
-  //TODO combine into a single array of objects
-  //TODO remove the inital values once rendering works. 
-  var titleArray = ["Lady Gaga Carpool Karaoke",]
-  var videoIdArray = ["X5Cfi7U4eL4"]
-  var imageArray = ["https://i.ytimg.com/vi/X5Cfi7U4eL4/hqdefault.jpg",]
+  //Array of objects to be populated with  YouTube API Data
+  var ytSearchArray= [];
 
 $(function() {
   // Wrap every letter in a span
@@ -23,7 +32,6 @@ $(function() {
         .replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>")
     );
   });
-
 
   anime
     .timeline({ loop: true })
@@ -89,15 +97,15 @@ $(function() {
       url: ytQueryURL,
       method: "GET"
       }).then(function(response) {
-      for (i = 0; i < 8; i++){
-          videoIdArray.push(response.items[i].id.videoId);
-          titleArray.push(response.items[i].snippet.title);
-          imageArray.push(response.items[i].snippet.thumbnails.high.url);
+      for (i = 0; i < 4; i++){
+          var ytInfo = response.items[i]; 
+          var objTitle = ytInfo.snippet.title;
+          var objVideo = ytInfo.id.videoId;
+          var objImage = ytInfo.snippet.thumbnails.high.url
+          ytSearchArray.push({ ytTitle: objTitle, ytVideo: objVideo, ytImage: objImage,});
           };
-          console.log(titleArray);
-          console.log(videoIdArray);
-          console.log(imageArray);
-          //displayImages();
+          console.log(ytSearchArray);
+          //displayVideos();
     });
   }
   
