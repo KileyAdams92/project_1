@@ -1,4 +1,17 @@
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBeq7mfg3gK0IBtgkGYr32wO3UWw2PhV_k",
+    authDomain: "video-jukebox-612ac.firebaseapp.com",
+    databaseURL: "https://video-jukebox-612ac.firebaseio.com",
+    projectId: "youtube-video-jukebox",
+    storageBucket: "youtube-video-jukebox.appspot.com",
+    messagingSenderId: "265159850889"
+  };
+  firebase.initializeApp(config);
 
+// a variable to reference the database
+  var database = firebase.database();
+  
 //Global variables
 //Initial Search variables
   //common for the MusixMatch and YoutTube Data search
@@ -10,9 +23,9 @@
   //Arrays populated with  YouTube API Data
   //TODO combine into a single array of objects
   //TODO remove the inital values once rendering works. 
-  var titleArray = ["Lady Gaga Carpool Karaoke",]
-  var videoIdArray = ["X5Cfi7U4eL4"]
-  var imageArray = ["https://i.ytimg.com/vi/X5Cfi7U4eL4/hqdefault.jpg",]
+  var titleArray = [];
+  var videoIdArray = [];
+  var imageArray = [];
 
 $(function() {
   // Wrap every letter in a span
