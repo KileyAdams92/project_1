@@ -123,23 +123,20 @@ $(function() {
 
         //Creates the Card image
         var cardImage = $("<img>").addClass("card-img-top")
-
           cardImage.attr("src", ytSearchArray[i].ytImage);
           cardImage.attr("alt", "Card image cap");
 
         //Creates the Card Body
         var cardBody = $("<div>").addClass("card-body");
+        var cardHeader = $("<h5>").addClass("card-title").text("Video Title:");
+              
+        var cardText = $("<p>").addClass("card-text");
+        cardText.text(ytSearchArray[i].ytTitle);
 
-          var cardHeader = $("<h5>").addClass("card-title").text("Video Title:");
-              console.log(cardHeader.text());
-
-          var cardText = $("<p>").addClass("card-text");
-              cardText.text(ytSearchArray[i].ytTitle);
-              console.log(cardText.text());
-
-          var cardButton = $("<button>").addClass("btn btn-primary").text("Select");
-            cardButton.val([i]);
-            console.log(cardButton.val());
+        var cardButton = $("<button>").addClass("btn btn-primary video-selected").text("Select");
+        //sets a value for each button equql to position in the ytSearchArray
+        cardButton.val([i]);
+        console.log(cardButton.val());
 
     //Assembles the Card and displays to page
     cardBody.append(cardHeader, cardText, cardButton);
@@ -147,6 +144,61 @@ $(function() {
     $(".video-selection").append(videoCard)
     $(".video-box").text("Select a video to Preview!");
     }
+  }
+
+  //listens for a video selection to be made. 
+  $(document).on("click", ".video-selected",function(event) {
+    var buttonValue = parseInt($(this).val());
+    $(".video-box").text("Review your video below!");
+    $(".video-selection").empty();
+    console.log(buttonValue);
+    displaySelectedVideo(buttonValue);
+  });
+
+  //Brings up the video info and enables the user to update artist and song info.
+  function displaySelectedVideo (inputNumber) {
+    $(".video-info-display").empty();
+
+    var arrayNumber = inputNumber;
+
+    var selectedImage = $("<img>").attr("id", "selected-image");
+    selectedImage.attr("src", ytSearchArray[arrayNumber].ytImage);
+
+    var selectedTitle = $("<div>").attr("id", "selected-title")
+    selectedTitle.text(ytSearchArray[arrayNumber].ytTitle);
+
+    var selectedForm =$("<form>").addClass("form");
+
+    var selectedDiv1 = $("<div>").addClass("form-group");
+    var selectedLabel1 = $("<label>").attr("for", "uploaded-by").text("Added By: (your name)");
+    var selectedInput1 = $("<input>").addClass("form-control")
+    selectedInput1.attr("id", "user-name").attr("type", "text");
+    selectedDiv1.append(selectedLabel1, selectedInput1);
+
+    var selectedDiv2 = $("<div>").addClass("form-group");
+    var selectedLabel2 = $("<label>").attr("for", "uploaded-comment").text("Comment:");
+    var selectedInput2 = $("<input>").addClass("form-control")
+    selectedInput2.attr("id", "user-comment").attr("type", "text");
+    selectedDiv2.append(selectedLabel2, selectedInput2);
+
+    selectedForm.append(selectedDiv1, selectedDiv2);
+
+    //Button that will add the video to playlist in FireBase
+
+    var selectedButtons = $("<div>").addClass("selected-buttons")
+
+    selectedTitle.text(ytSearchArray[arrayNumber].ytTitle);
+    var addVideo = $("<button>").addClass("btn btn-success").text("Upload to Playlist");
+    addVideo.attr("type", "submit");
+    addVideo.attr("id", "upload-video");
+
+    var selectAgain = $("<button>").addClass("btn btn-danger").text("Back to Search Results");
+    selectAgain.attr("type", "submit");
+    selectAgain.attr("id", "reselect-video");
+
+    selectedButtons.append(addVideo, selectAgain);
+
+    $(".video-info-display").append(selectedImage, selectedTitle, selectedForm, selectedButtons);
   }
 
 });
