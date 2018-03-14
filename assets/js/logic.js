@@ -22,6 +22,9 @@ var duration = "";
 var ytSearchArray = []; //Array of objects populated with YouTube API Data
 var ytArrayNum; // the index number of the selected video in the array.
 
+// for holding the playlist array
+var playlistArray = [];
+
 $(function () {
   // Wrap every letter in a span
   $(".ml7 .letters").each(function () {
@@ -232,7 +235,7 @@ $(function () {
       videoTitle: ytSearchArray[ytArrayNum].ytTitle,
       videoImage: ytSearchArray[ytArrayNum].ytImage,
       videoSmImage: ytSearchArray[ytArrayNum].ytSmImage,
-      videoSmImage: ytSearchArray[ytArrayNum].ytMdImage,
+      videoMdImage: ytSearchArray[ytArrayNum].ytMdImage,
       addedBy: varName,
       userComment: varComment,
       searchedArtistName: artistName,
@@ -241,4 +244,45 @@ $(function () {
       });
     }
   
+  function getPlaylistArray(){
+
+    //empty out the contents of the current playlist
+    playlistArray = [];
+    var counter = 0
+    //orders video info by date added and takes snapshot of data.
+    database.ref("/music").orderByChild("dateAdded").startAt(1).on("child_added", function(childSnapshot) {
+      counter++
+      console.log(counter);
+      console.log(childSnapshot.val().videoId);  //monitoring purposes only
+      playlistArray.push(childSnapshot.val().videoId);
+      },  
+      console.log (playlistArray),
+      function(errorObject) {
+          console.log("Errors handled: " + errorObject.code);
+      });
+  }
+
+  function getVideoPlaylist(){
+
+    //empty out the current table
+    $("tbody").empty();
+    var counter = 0
+    //orders video info by date added and takes snapshot of data.
+    database.ref("/music").orderByChild("dateAdded").startAt(1).on("child_added", function(childSnapshot) {
+      counter++
+      console.log(counter);
+      console.log(childSnapshot.val().videoSmImage);  //monitoring purposes only
+      console.log(childSnapshot.val().videoTitle);
+      console.log(childSnapshot.val().addedBy); 
+      console.log(childSnapshot.val().userComment);
+      console.log(childSnapshot.val().videoId);    
+  
+      },  
+      //make table
+      function(errorObject) {
+          console.log("Errors handled: " + errorObject.code);
+      });
+  }
+  getPlaylistArray();
+  getVideoPlaylist();  
 });
