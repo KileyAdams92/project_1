@@ -16,21 +16,14 @@ body {
   margin-bottom: 50px;
 }
 
-.ml7 {
-  position: relative;
-  font-weight: 900;
-  font-size: 3.7em;
+.ml12 {
+  font-weight: 200;
+  font-size: 1.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
 }
-/* .ml7 .text-wrapper {
-  position: relative;
-  display: inline-block;
-  padding-top: 0.2em;
-  padding-right: 0.05em;
-  padding-bottom: 0.1em;
-  overflow: hidden;
-} */
-.ml7 .letter {
-  transform-origin: 0 100%;
+
+.ml12 .letter {
   display: inline-block;
   line-height: 1em;
 }
@@ -39,6 +32,7 @@ body {
   margin-top: 30px;
   width: 600px;
   height: 400px;
+  color: white;
 }
 
 .card {
@@ -52,4 +46,8 @@ body {
 
 #bottom-row {
   padding-top: 20px;
+}
+
+label {
+  color: white;
 }
