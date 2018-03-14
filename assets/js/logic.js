@@ -22,12 +22,10 @@ var duration = "";
 var ytSearchArray = []; //Array of objects populated with YouTube API Data
 var ytArrayNum; // the index number of the selected video in the array.
 
-
 // for holding the playlist array
 var playlistArray = [];
 
-$(function () {
-
+$(function() {
   // Wrap every letter in a span
   $(".ml7 .letters").each(function() {
     $(this).html(
@@ -81,6 +79,7 @@ $(function () {
     addLyrics();
     ytDataSearch();
   });
+
   //musixmatch API call
   function addLyrics(lyricSpot) {
     $(".lyrics").html("");
@@ -123,8 +122,8 @@ $(function () {
         var objTitle = ytInfo.snippet.title;
         var objVideo = ytInfo.id.videoId;
         var objImage = ytInfo.snippet.thumbnails.high.url;
-        var objSmImage = ytInfo.snippet.thumbnails.default.url; //small image for final playlist
-        var objMdImage = ytInfo.snippet.thumbnails.medium.url; //medium image for selected video
+        var objSmImage = ytInfo.snippet.thumbnails.default.url;
+        var objMdImage = ytInfo.snippet.thumbnails.medium.url;
 
         ytSearchArray.push({
           ytTitle: objTitle,
@@ -134,9 +133,6 @@ $(function () {
           ytMdImage: objMdImage
         });
       }
-      console.log(ytSearchArray);
-      console.log(ytSearchArray.length);
-      console.log('"' + ytSearchArray.length + '"');
       videoSearchResults();
     });
   }
@@ -188,16 +184,29 @@ $(function () {
     $(".video-selection").empty();
     console.log(ytArrayNum);
     displaySelectedVideo();
+    displaySelectedVideoInfo();
   });
 
-  //Brings up the video info and enables the user to update artist and song info.
+  //Brings up the video for review by the user
   function displaySelectedVideo() {
-    $(".video-selection").empty();
-    $(".video-info-display").empty();
     $(".video-playback").empty();
+    var srcVideoInfo =
+      "https://www.youtube.com/embed/" + ytSearchArray[ytArrayNum].ytVideo;
+    var videoFrame = $("<iframe>");
+    videoFrame
+      .attr("width", "640")
+      .attr("height", "390")
+      .attr("src", srcVideoInfo);
+
+    $(".video-playback").append(videoFrame);
+  }
+
+  //Brings up the video info and enables the user to add name and a comment.
+  function displaySelectedVideoInfo() {
+    $(".video-selection").empty();
 
     var selectedImage = $("<img>").attr("id", "selected-image");
-    selectedImage.attr("src", ytSearchArray[ytArrayNum].ytImage);
+    selectedImage.attr("src", ytSearchArray[ytArrayNum].ytMdImage);
 
     var selectedTitle = $("<div>").attr("id", "selected-title");
     selectedTitle.text(ytSearchArray[ytArrayNum].ytTitle);
@@ -259,11 +268,13 @@ $(function () {
 
     $(".video-box").text("Search again or play the awesome playlist!");
     $(".video-info-display").empty();
-    $(".video-playback").empty(); //nothing in this yet but there will be.
+    $(".video-playback").empty();
   });
 
   //Clears the selected video and redisplays the original search list.
   $(document).on("click", "#reselect-video", function(event) {
+    $(".video-info-display").empty();
+    $(".video-playback").empty();
     videoSearchResults();
   });
 
@@ -279,54 +290,84 @@ $(function () {
       searchedArtistName: artistName,
       searchedSongTitle: songTitle,
       dateAdded: firebase.database.ServerValue.TIMESTAMP
-
-      });
-    }
-  
-  function getPlaylistArray(){
-
-    //empty out the contents of the current playlist
-    playlistArray = [];
-    var counter = 0
-    //orders video info by date added and takes snapshot of data.
-    database.ref("/music").orderByChild("dateAdded").startAt(1).on("child_added", function(childSnapshot) {
-      counter++
-      console.log(counter);
-      console.log(childSnapshot.val().videoId);  //monitoring purposes only
-      playlistArray.push(childSnapshot.val().videoId);
-      },  
-      console.log (playlistArray),
-      function(errorObject) {
-          console.log("Errors handled: " + errorObject.code);
-      });
-  }
-
-  function getVideoPlaylist(){
-
-    //empty out the current table
-    $("tbody").empty();
-    var counter = 0
-    //orders video info by date added and takes snapshot of data.
-    database.ref("/music").orderByChild("dateAdded").startAt(1).on("child_added", function(childSnapshot) {
-      counter++
-      console.log(counter);
-      console.log(childSnapshot.val().videoSmImage);  //monitoring purposes only
-      console.log(childSnapshot.val().videoTitle);
-      console.log(childSnapshot.val().addedBy); 
-      console.log(childSnapshot.val().userComment);
-      console.log(childSnapshot.val().videoId);    
-  
-      },  
-      //make table
-      function(errorObject) {
-          console.log("Errors handled: " + errorObject.code);
-      });
-  }
-  getPlaylistArray();
-  getVideoPlaylist();  
-});
-
     });
   }
-});
 
+  function displayPlaylist() {
+    //empty out the current table
+    $("tbody").empty();
+    var counter = 0;
+    //orders video info by date added and takes snapshot of data.
+    database
+      .ref("/music")
+      .orderByChild("dateAdded")
+      .startAt(1)
+      .on(
+        "child_added",
+        function(childSnapshot) {
+          counter++;
+          console.log(counter);
+          console.log(childSnapshot.val().videoSmImage); //monitoring purposes only
+          console.log(childSnapshot.val().videoTitle);
+          console.log(childSnapshot.val().addedBy);
+          console.log(childSnapshot.val().userComment);
+          console.log(childSnapshot.val().videoId);
+
+          var tBody = $("tbody");
+          var tRow = $("<tr>");
+
+          var headTh = $("<th>")
+            .attr("scope", "row")
+            .text(counter + ".");
+
+          var imageTd = $("<td>");
+          var playlistImage = $("<img>").attr(
+            "src",
+            childSnapshot.val().videoSmImage
+          );
+          imageTd.append(playlistImage);
+
+          var titleTd = $("<td>").text(childSnapshot.val().videoTitle);
+          var userTd = $("<td>").text(childSnapshot.val().addedBy);
+          var commentTd = $("<td>").text(childSnapshot.val().userComment);
+
+          tRow.append(headTh, imageTd, titleTd, userTd, commentTd);
+          tBody.append(tRow);
+        },
+        function(errorObject) {
+          console.log("Errors handled: " + errorObject.code);
+        }
+      );
+  }
+
+  displayPlaylist();
+
+  $("#start-playlist").click(function() {
+    getPlaylistArray();
+    console.log(playlistArray);
+    //TODO activate YouTube iFrame API
+  });
+
+  function getPlaylistArray() {
+    //empty out the contents of the current playlist
+    playlistArray = [];
+    var counter = 0;
+    //orders video info by date added and takes snapshot of data.
+    database
+      .ref("/music")
+      .orderByChild("dateAdded")
+      .startAt(1)
+      .on(
+        "child_added",
+        function(childSnapshot) {
+          counter++;
+          console.log(counter);
+          console.log(childSnapshot.val().videoId); //monitoring purposes only
+          playlistArray.push(childSnapshot.val().videoId);
+        },
+        function(errorObject) {
+          console.log("Errors handled: " + errorObject.code);
+        }
+      );
+  }
+});
