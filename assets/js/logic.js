@@ -184,14 +184,29 @@ $(function() {
     $(".video-selection").empty();
     console.log(ytArrayNum);
     displaySelectedVideo();
+    displaySelectedVideoInfo();
   });
 
-  //Brings up the video info and enables the user to update artist and song info.
+  //Brings up the video for review by the user
   function displaySelectedVideo() {
+    $(".video-playback").empty();
+    var srcVideoInfo =
+      "https://www.youtube.com/embed/" + ytSearchArray[ytArrayNum].ytVideo;
+    var videoFrame = $("<iframe>");
+    videoFrame
+      .attr("width", "640")
+      .attr("height", "390")
+      .attr("src", srcVideoInfo);
+
+    $(".video-playback").append(videoFrame);
+  }
+
+  //Brings up the video info and enables the user to add name and a comment.
+  function displaySelectedVideoInfo() {
     $(".video-selection").empty();
 
     var selectedImage = $("<img>").attr("id", "selected-image");
-    selectedImage.attr("src", ytSearchArray[ytArrayNum].ytImage);
+    selectedImage.attr("src", ytSearchArray[ytArrayNum].ytMdImage);
 
     var selectedTitle = $("<div>").attr("id", "selected-title");
     selectedTitle.text(ytSearchArray[ytArrayNum].ytTitle);
