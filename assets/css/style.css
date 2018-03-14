@@ -35,10 +35,21 @@ body {
   line-height: 1em;
 }
 
-.musicP {
-  background-color: grey;
+.lyrics {
+  margin-top: 30px;
+  width: 600px;
+  height: 400px;
 }
 
-.card{
+.card {
   display: inline-block;
+  width: 17rem;
+}
+
+.video-box {
+  padding-top: 20px;
+}
+
+#bottom-row {
+  padding-top: 20px;
 }
