@@ -83,7 +83,7 @@ $(function() {
   function addLyrics(lyricSpot) {
     $(".lyrics").html("");
     var mmQueryURL =
-      "http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=2ba1698bb3ae560efd18a96c8b13d980&q_track=" +
+      "https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=2ba1698bb3ae560efd18a96c8b13d980&q_track=" +
       songTitle +
       "&q_artist=" +
       artistName;
