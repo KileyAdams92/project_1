@@ -37,40 +37,37 @@
                             <label for="duration">Video Length:</label>
                             <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
                                 <option selected>Choose...</option>
-                                <option value="short">Short (less than 4 minutes in length)</option>
-                                <option value="medium">Medium (between 4 and 20 minutes in length)</option>
+                                <option value="short">Short (less than 4 minutes long)</option>
+                                <option value="medium">Medium (between 4 and 20 minutes long)</option>
                             </select>
                         </form>
                         <button class="btn btn-secondary mb-2" id="submit-song" type="submit">Submit</button>
                     </form>
                 </div>
                 <!--Video/Lyrics-->
-
-
                 <div class="col-lg-8">
                     <div class="d-flex p-2 lyrics">Lyrics</div>
                 </div>
             </div>
         </div>
-
     </div>
     <br>
-    <!--Playlist Table-->
+    <!--Search Results/VideoPlayers-->
     <div class="container">
         <div class="video-content">
             <div class="row">
                 <div class="d-flex p-2 col-lg-12 video-box">Your video search results will display below!</div>
             </div>
             <div class="row">
-                <div class="col-12 video-selection"></div>
+                <div class="col-12 video-all" id="video-selection"></div>
             </div>
             <div class="row">
-                <div class="col-7 video-playback"></div>
-                <div class="col-5 video-info-display"></div>
+                <div class="col-7 video-all" id="video-playback"></div>
+                <div class="col-5 video-all" id="video-info-display"></div>
             </div>
         </div>
     </div>
-    </div>
+    <!--Playlist Display -->
     <div class="container">
         <div id="bottom-row" class="row">
             <div class="col col-lg-12 text-white" style="background-color: transparent">
@@ -91,14 +88,9 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-secondary mb-2" id="start-playlist" type="playlistBtn">Start Playlist</button>
+            <button class="btn btn-secondary mb-2" id="start-playlist-btn" type="playlistBtn">Start Playlist</button>
 
         </div>
-
-
-    </div>
-
-    </div>
     </div>
 
     <!--Scripts-->

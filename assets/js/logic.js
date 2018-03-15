@@ -25,6 +25,9 @@ var ytArrayNum; // the index number of the selected video in the array.
 // for holding the playlist array
 var playlistArray = [];
 
+// for controlling playlist playback
+var playlistPlaying = false;
+
 $(function() {
   // Wrap every letter in a span
   $(".ml7 .letters").each(function() {
@@ -111,13 +114,13 @@ $(function() {
       songTitle +
       "&part=snippet&type=video&videoDuration=" +
       duration +
-      "&maxResults=4";
+      "&maxResults=8";
 
     $.ajax({
       url: ytQueryURL,
       method: "GET"
     }).then(function(response) {
-      for (i = 0; i < 4; i++) {
+      for (i = 0; i < 8; i++) {
         var ytInfo = response.items[i];
         var objTitle = ytInfo.snippet.title;
         var objVideo = ytInfo.id.videoId;
@@ -139,7 +142,7 @@ $(function() {
 
   function videoSearchResults() {
     //empties the video-selection div to remove past search results.
-    $(".video-selection").empty();
+    $(".video-all").empty();
 
     //repopulates the video-selection div with the current search results;
     for (i = 0; i < ytSearchArray.length; i++) {
@@ -172,7 +175,7 @@ $(function() {
       //Assembles the Card and displays to page
       cardBody.append(cardHeader, cardText, cardButton);
       videoCard.append(cardImage, cardBody);
-      $(".video-selection").append(videoCard);
+      $("#video-selection").append(videoCard);
       $(".video-box").text("Select a video to Preview!");
     }
   }
@@ -181,7 +184,7 @@ $(function() {
   $(document).on("click", ".video-selected", function(event) {
     ytArrayNum = parseInt($(this).val());
     $(".video-box").text("Review your video below!");
-    $(".video-selection").empty();
+    $(".video-all").empty();
     console.log(ytArrayNum);
     displaySelectedVideo();
     displaySelectedVideoInfo();
@@ -189,22 +192,21 @@ $(function() {
 
   //Brings up the video for review by the user
   function displaySelectedVideo() {
-    $(".video-playback").empty();
     var srcVideoInfo =
-      "https://www.youtube.com/embed/" + ytSearchArray[ytArrayNum].ytVideo;
+      "https://www.youtube.com/embed/" +
+      ytSearchArray[ytArrayNum].ytVideo +
+      "?controls=0";
     var videoFrame = $("<iframe>");
     videoFrame
       .attr("width", "640")
       .attr("height", "390")
       .attr("src", srcVideoInfo);
 
-    $(".video-playback").append(videoFrame);
+    $("#video-playback").append(videoFrame);
   }
 
   //Brings up the video info and enables the user to add name and a comment.
   function displaySelectedVideoInfo() {
-    $(".video-selection").empty();
-
     var selectedImage = $("<img>").attr("id", "selected-image");
     selectedImage.attr("src", ytSearchArray[ytArrayNum].ytMdImage);
 
@@ -249,7 +251,7 @@ $(function() {
 
     selectedButtons.append(addVideo, selectAgain);
 
-    $(".video-info-display").append(
+    $("#video-info-display").append(
       selectedImage,
       selectedTitle,
       selectedForm,
@@ -267,14 +269,12 @@ $(function() {
     pushToFirebase(addedBy, userComment);
 
     $(".video-box").text("Search again or play the awesome playlist!");
-    $(".video-info-display").empty();
-    $(".video-playback").empty();
+    $(".video-all").empty();
   });
 
   //Clears the selected video and redisplays the original search list.
   $(document).on("click", "#reselect-video", function(event) {
-    $(".video-info-display").empty();
-    $(".video-playback").empty();
+    $(".video-all").empty();
     videoSearchResults();
   });
 
@@ -342,9 +342,19 @@ $(function() {
 
   displayPlaylist();
 
-  $("#start-playlist").click(function() {
-    getPlaylistArray();
-    console.log(playlistArray);
+  $("#start-playlist-btn").click(function() {
+    $(".video-all").empty();
+    if (playlistPlaying == false) {
+      playlistPlaying = true;
+      $("#start-playlist-btn").text("Stop Playback");
+      $(".video-box").text("Enjoy the Show!");
+      getPlaylistArray();
+      playPlaylist();
+    } else {
+      playlistPlaying = false;
+      $("#start-playlist-btn").text("Start Playlist");
+      $(".video-box").text("Your video search results will display below!");
+    }
     //TODO activate YouTube iFrame API
   });
 
@@ -369,5 +379,24 @@ $(function() {
           console.log("Errors handled: " + errorObject.code);
         }
       );
+  }
+
+  function playPlaylist() {
+    //converts playlist array into string.
+    var playlistString = playlistArray.toString();
+    console.log(playlistArray);
+    console.log(playlistString);
+
+    var srcVideoInfo =
+      "https://www.youtube.com/embed/?playlist=" +
+      playlistString +
+      "&?controls=0";
+    var videoFrame = $("<iframe>");
+    videoFrame
+      .attr("width", "640")
+      .attr("height", "390")
+      .attr("src", srcVideoInfo);
+
+    $("#video-playback").append(videoFrame);
   }
 });
